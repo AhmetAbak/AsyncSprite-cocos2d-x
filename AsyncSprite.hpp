@@ -19,8 +19,10 @@ private:
     cocos2d::Size originalSize;
     void onDownloadCompleted(const cocos2d::network::DownloadTask &task);
 public:
+    bool isImageLoaded;
     CREATE_FUNC(AsyncSprite);
     static AsyncSprite* createFromURL(const std::string& url, const cocos2d::Size& size, const std::string& placeholder);
+    virtual bool init();
     bool initFromURL(const std::string url, cocos2d::Size size, std::string placeholder);
     ~AsyncSprite();
 };

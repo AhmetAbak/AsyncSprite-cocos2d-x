@@ -12,8 +12,7 @@ USING_NS_CC;
 
 namespace asyncutils {
     template <typename T>
-    std::string stringify(T value)
-    {
+    std::string stringify(T value) {
         std::ostringstream os;
         os << value ;
         return os.str();
@@ -26,15 +25,24 @@ namespace asyncutils {
     }
 }
 
-void AsyncSprite::onDownloadCompleted(const cocos2d::network::DownloadTask &task) {
+bool AsyncSprite::init() {
+    if(!Sprite::init()) {
+        return false;
+    }
     
+    isImageLoaded = false;
+    
+    return true;
+}
+
+void AsyncSprite::onDownloadCompleted(const cocos2d::network::DownloadTask &task) {
     std::string name = "__asyncSprite__" + srcID;
     std::string filePath = cocos2d::FileUtils::getInstance()->getWritablePath() + name;
-    
+
     initWithFile(filePath);
-    
     setScale(originalSize.width / getTextureRect().size.width, originalSize.height / getTextureRect().size.height);
     
+    isImageLoaded = true;
     delete downloader;
 }
 
@@ -52,7 +60,6 @@ AsyncSprite* AsyncSprite::createFromURL(const std::string& url,const cocos2d::Si
 }
 
 bool AsyncSprite::initFromURL(const std::string url, cocos2d::Size size, std::string placeholder) {
-    
     using namespace cocos2d::network;
     
     if (!Sprite::init()) {
