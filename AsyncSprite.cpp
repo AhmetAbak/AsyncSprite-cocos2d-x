@@ -81,11 +81,7 @@ bool AsyncSprite::initFromURL(const std::string url, cocos2d::Size size, std::st
 }
 
 AsyncSprite::~AsyncSprite() {
-    if (downloader) {
-        delete downloader;
-    }
     std::string name = "__asyncSprite__" + srcID;
     std::string filePath = cocos2d::FileUtils::getInstance()->getWritablePath() + name;
-    
     FileUtils::getInstance()->removeFile(filePath);
 }
